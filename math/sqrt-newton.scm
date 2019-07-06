@@ -12,12 +12,11 @@
   (average (/ x guess) guess)
 )
 
-(define (precise-enough? x1 x2 precision)
-  (< (diff x1 x2) precision)
-)
-
 (define (sqrt-iter x guess previous-guess precision)
-  (if (precise-enough? previous-guess guess precision)
+  (define (precise-enough?)
+    (< (diff guess previous-guess) precision)
+  )
+  (if (precise-enough?)
       guess
       (sqrt-iter x (sqrt-approx x guess) guess precision)
    )
