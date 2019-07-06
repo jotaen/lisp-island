@@ -16,3 +16,8 @@
   (if (= 0 x)
     1
     (* x (factorial (- (abs x) 1)))))
+
+(define (fibonacci x)
+  (define (fibonacci-iter a b i)
+    (if (= 0 i) b (fibonacci-iter (+ a b) a (- i 1))))
+  (fibonacci-iter 1 0 x))

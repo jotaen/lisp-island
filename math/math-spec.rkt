@@ -54,3 +54,14 @@
 (check-equal? (factorial 5) 120)
 (check-equal? (factorial 14) 87178291200)
 
+;;; `fibonacci`
+(check-equal? (fibonacci 0) 0)
+(check-equal? (fibonacci 1) 1)
+(check-equal? (fibonacci 2) 1)
+(check-equal? (fibonacci 3) 2)
+(check-equal? (fibonacci 4) 3)
+(check-equal? (fibonacci 5) 5)
+(check-equal? (fibonacci 6) 8)
+(check-equal? (fibonacci 7) 13)
+(check-equal? (fibonacci 8) 21)
+(check-equal? (fibonacci 50) 12586269025)
