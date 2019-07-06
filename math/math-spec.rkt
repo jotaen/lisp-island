@@ -1,10 +1,9 @@
 #lang racket
 
-(include "sqrt.scm")
+(include "math/math.scm")
 (require rackunit)
 
 (define PREC 0.0001)
-
 
 (check-within (sqrt 0) 0 PREC)
 (check-within (sqrt 1) 1 PREC)
