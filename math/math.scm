@@ -21,3 +21,14 @@
   (define (fibonacci-iter a b i)
     (if (= 0 i) b (fibonacci-iter (+ a b) a (- i 1))))
   (fibonacci-iter 1 0 x))
+
+(define (binomial-coefficients n)
+  (define (row-iter prev)
+    (if (= 1 (length prev))
+      '(1)
+      (cons (+ (first prev) (second prev)) (row-iter (cdr prev)))))
+  (define (pascal-triangle-iter row i)
+    (if (= i n)
+      row
+      (pascal-triangle-iter (row-iter (cons 0 row)) (+ i 1))))
+  (pascal-triangle-iter '(1) 1))

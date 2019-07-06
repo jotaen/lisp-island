@@ -65,3 +65,11 @@
 (check-equal? (fibonacci 7) 13)
 (check-equal? (fibonacci 8) 21)
 (check-equal? (fibonacci 50) 12586269025)
+
+;;; `binomial-coefficients`
+(check-equal? (binomial-coefficients 1) '(1))
+(check-equal? (binomial-coefficients 2) '(1 1))
+(check-equal? (binomial-coefficients 3) '(1 2 1))
+(check-equal? (binomial-coefficients 4) '(1 3 3 1))
+(check-equal? (binomial-coefficients 5) '(1 4 6 4 1))
+(check-equal? (binomial-coefficients 6) '(1 5 10 10 5 1))
