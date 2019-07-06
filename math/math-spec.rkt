@@ -3,8 +3,28 @@
 (include "math.scm")
 (require rackunit)
 
-;;; `sqrt`
+;;; `abs`
+(check-equal? (abs -182) 182)
+(check-equal? (abs -1) 1)
+(check-equal? (abs 0) 0)
+(check-equal? (abs 1) 1)
+(check-equal? (abs 184) 184)
 
+;;; `diff`
+(check-equal? (diff 1 2) 1)
+(check-equal? (diff 2 1) 1)
+(check-equal? (diff -5 -7) 2)
+(check-equal? (diff -9 3) 12)
+(check-equal? (diff 0 5) 5)
+(check-equal? (diff 1726 0) 1726)
+
+;;; `average`
+(check-equal? (average 2 0) 1)
+(check-equal? (average 13 1) 7)
+(check-equal? (average 1 14) 15/2)
+(check-equal? (average 4 -4) 0)
+
+;;; `sqrt`
 ; Computed values are within required precision
 (define PREC 0.0001)
 
@@ -21,7 +41,6 @@
 (check-equal? (sqrt -1) #f)
 
 ;;; `factorial`
-
 (check-equal? (factorial -5) -120)
 (check-equal? (factorial -4) -24)
 (check-equal? (factorial -3) -6)
