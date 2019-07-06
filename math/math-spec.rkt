@@ -3,6 +3,8 @@
 (include "math.scm")
 (require rackunit)
 
+(define PREC 0.0001)
+
 ;;; `abs`
 (check-equal? (abs -182) 182)
 (check-equal? (abs -1) 1)
@@ -26,8 +28,6 @@
 
 ;;; `sqrt`
 ; Computed values are within required precision
-(define PREC 0.0001)
-
 (check-within (sqrt 0) 0 PREC)
 (check-within (sqrt 1) 1 PREC)
 (check-within (sqrt 2) 1.4142 PREC)
@@ -73,3 +73,11 @@
 (check-equal? (binomial-coefficients 4) '(1 3 3 1))
 (check-equal? (binomial-coefficients 5) '(1 4 6 4 1))
 (check-equal? (binomial-coefficients 6) '(1 5 10 10 5 1))
+
+;;; `sin`
+(check-within (sin 0) 0 PREC)
+(check-within (sin (/ pi 6)) 0.5 PREC)
+(check-within (sin (/ pi 2)) 1 PREC)
+(check-within (sin pi) 0 PREC)
+(check-within (sin (* pi 1.5)) -1 PREC)
+(check-within (sin (* pi 10)) 0 PREC)

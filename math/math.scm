@@ -32,3 +32,9 @@
       row
       (pascal-triangle-iter (row-iter (cons 0 row)) (+ i 1))))
   (pascal-triangle-iter '(1) 1))
+
+(define (sin angle-rad)
+  (define (approx x) (- (* 3 x) (* 4 x x x)))
+  (if (not (> (abs angle-rad) 0.000001))
+    angle-rad
+    (approx (sin (/ angle-rad 3.0)))))
