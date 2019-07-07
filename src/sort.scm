@@ -1,12 +1,8 @@
 (include "list.scm")
 
 (define (insert-sort numbers)
-  (define (fits-start? x xs) 
-    (or (empty? xs) (< x (first xs))))
-  (define (fits-end? x xs)
-    (or (empty? xs) (> x (last xs))))
   (define (insert x left right)
-    (if (and (fits-end? x left) (fits-start? x right))
+    (if (or (empty? right) (<= x (first right)))
       (append left (list x) right)
       (insert x (append left (list (first right))) (cdr right))))
   (define (sort-iter unsorted sorted)
