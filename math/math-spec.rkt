@@ -17,6 +17,7 @@
 (check-equal? (diff 2 1) 1)
 (check-equal? (diff -5 -7) 2)
 (check-equal? (diff -9 3) 12)
+(check-equal? (diff 9 -3) 12)
 (check-equal? (diff 0 5) 5)
 (check-equal? (diff 1726 0) 1726)
 
@@ -27,7 +28,6 @@
 (check-equal? (average 4 -4) 0)
 
 ;;; `sqrt`
-; Computed values are within required precision
 (check-within (sqrt 0) 0 PREC)
 (check-within (sqrt 1) 1 PREC)
 (check-within (sqrt 2) 1.4142 PREC)
@@ -36,9 +36,6 @@
 (check-within (sqrt 25) 5 PREC)
 (check-within (sqrt 100) 10 PREC)
 (check-within (sqrt 100001) 316.2293471 PREC)
-
-; Negative values are not allowed"
-(check-equal? (sqrt -1) #f)
 
 ;;; `factorial`
 (check-equal? (factorial -5) -120)
