@@ -1,6 +1,6 @@
 #lang racket
 
-(include "math.scm")
+(include "math.rkt")
 (require rackunit)
 
 (define PREC 0.0001)
