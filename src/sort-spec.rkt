@@ -1,6 +1,6 @@
 #lang racket
 
-(include "sort.rkt")
+(include "sort.scm")
 (require rackunit)
 
 (define/provide-test-suite sort-spec

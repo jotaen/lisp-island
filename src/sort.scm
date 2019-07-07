@@ -1,3 +1,5 @@
+(include "list.scm")
+
 (define (insert-sort numbers)
   (define (fits-start? x xs) 
     (or (empty? xs) (< x (first xs))))
