@@ -3,7 +3,7 @@
 (require
   rackunit
   rackunit/text-ui
-  "math/math-spec.rkt")
+  "src/math-spec.rkt")
 
 (define-test-suite all-tests
   "Lisp Exercises Tests"
