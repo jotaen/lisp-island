@@ -23,15 +23,15 @@
   (fibonacci-iter 1 0 x))
 
 (define (binomial-coefficients n)
-  (define (row-iter prev)
-    (if (= 1 (length prev))
-      '(1)
-      (cons (+ (first prev) (second prev)) (row-iter (cdr prev)))))
-  (define (pascal-triangle-iter row i)
-    (if (= i n)
+  (define (sums-of-neighbours row)
+    (cons
+      (+ (first row) (second row))
+      (if (= 2 (length row)) '() (sums-of-neighbours (cdr row)))))
+  (define (pascal-triangle-iter row)
+    (if (= n (length row))
       row
-      (pascal-triangle-iter (row-iter (cons 0 row)) (+ i 1))))
-  (pascal-triangle-iter '(1) 1))
+      (pascal-triangle-iter (sums-of-neighbours (append '(0) row '(0))))))
+  (pascal-triangle-iter '(1)))
 
 (define (sin angle-rad)
   (define (approx x) (- (* 3 x) (* 4 x x x)))
