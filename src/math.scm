@@ -37,7 +37,7 @@
   (pascal-triangle-iter '(1)))
 
 (define (sin x) ; `x` in radians
-  (define (approx g) (- (* 3 g) (* 4 g g g)))
+  (define (approx g) (- (* 3 g) (* 4 (power g 3))))
   (define (trigonometry-iter precision)
     (if (not (> (abs x) precision))
       x
