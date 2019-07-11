@@ -19,7 +19,7 @@
     (define (headline h) (string-append "# " h))
     (define (verbose c)
         (format #f
-        "Evaluate:    ~A\nAssert:      (~A ~A ~A)\nResult:      ~A"
+        "Evaluate:    ~A\n  Assert:      (~A ~A ~A)\n  Result:      ~A\n"
         (scmunit-result-expression c)
         (scmunit-result-predicate c)
         (scmunit-result-actual c)
@@ -27,10 +27,11 @@
         (scmunit-result-ok? c)))
     (define (quiet c) (if (scmunit-result-ok? c) "." "E"))
     (begin
-        (display "\n\n\n")
+        (display "\n")
         (for-each (lambda (t) (begin
             (display (headline (first t)))
             (display "\n  ")
             (for-each (lambda (c) (display (quiet c))) (second t))
+            (display "\n\n")
             )) scmunit-report)
-        (display "\n\n\n")))
+        ))

@@ -1,6 +1,10 @@
+(define pi 3.1415926)
+
 (define (abs x) (if (< x 0) (- x) x))
 
 (define (diff x y) (abs (- x y)))
+
+(define (within? delta) (lambda (x y) (>= delta (diff x y))))
 
 (define (average x y) (/ (+ x y) 2))
 

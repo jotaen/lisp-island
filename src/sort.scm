@@ -1,4 +1,4 @@
-(include "list.scm")
+(include "src/list.scm")
 
 (define (insert-sort numbers)
   (define (insert x left right)
