@@ -1,26 +1,36 @@
-(define-syntax check
-  (syntax-rules ()
-    ((_ predicate expression expected)
-        (let* (
-          (actual expression)
-          (result (predicate actual expected)))
-          (begin
-            (display "\n")
-            (display "Evaluate:    ")
-            (display 'expression)
-            (display "\n")
-            (display "Assert:      (")
-            (display 'predicate)
-            (display " ")
-            (display actual)
-            (display " ")
-            (display expected)
-            (display ")")
-            (display "\n")
-            (display "Result:      ")
-            (display result)
-            (display "\n")
-            )))))
+(load-option 'format)
 
-(check eq? (+ 5 5) 12)
-(check eq? (+ 5 5) 10)
+(define scmunit-report ())
+
+(define-structure scmunit-result
+    predicate expression actual expected ok?)
+
+(define-syntax check
+  (syntax-rules () ((_ predicate expression expected)
+    (let* (
+      (actual expression)
+      (ok? (predicate actual expected)))
+        (make-scmunit-result 'predicate 'expression actual expected ok?)))))
+
+(define (test-case name . checks) 
+    (set! scmunit-report (append scmunit-report (list (list name checks)))))
+
+(define (scmunit-run)
+    (define (headline h) (string-append "# " h))
+    (define (verbose c)
+        (format #f
+        "Evaluate:    ~A\nAssert:      (~A ~A ~A)\nResult:      ~A"
+        (scmunit-result-expression c)
+        (scmunit-result-predicate c)
+        (scmunit-result-actual c)
+        (scmunit-result-expected c)
+        (scmunit-result-ok? c)))
+    (define (quiet c) (if (scmunit-result-ok? c) "." "E"))
+    (begin
+        (display "\n\n\n")
+        (for-each (lambda (t) (begin
+            (display (headline (first t)))
+            (display "\n  ")
+            (for-each (lambda (c) (display (quiet c))) (second t))
+            )) scmunit-report)
+        (display "\n\n\n")))
