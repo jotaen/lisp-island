@@ -36,11 +36,11 @@
 
 (define (sin x) ; `x` in radians
   (define (approx g) (- (* 3 g) (* 4 (power g 3))))
-  (define (trigonometry-iter precision)
+  ((lambda (precision)
     (if (not (> (abs x) precision))
       x
       (approx (sin (/ x 3.0)))))
-  (trigonometry-iter 0.000001))
+  0.000001))
 
 (define (identity x) x)
 
