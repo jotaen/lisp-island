@@ -89,4 +89,25 @@
     (check-within (sin (* pi 10)) 0 PREC)
   )
 
+  (test-case "identity"
+    (check-equal? (identity 1) 1)
+    (check-equal? (identity '()) '())
+    (check-equal? (identity '(2)) '(2))
+  )
+
+  (test-case "reciprocal"
+    (check-equal? (reciprocal 1) 1/1)
+    (check-equal? (reciprocal 5) 1/5)
+    (check-equal? (reciprocal -5) -1/5)
+  )
+
+  (test-case "power"
+    (check-equal? (power 3 -2) 1/9)
+    (check-equal? (power 3 -1) 1/3)
+    (check-equal? (power 3 0) 1)
+    (check-equal? (power 3 1) 3)
+    (check-equal? (power 3 2) 9)
+    (check-equal? (power 476 13) 64400669962779946155230391934386176)
+  )
+
 )

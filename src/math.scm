@@ -43,3 +43,13 @@
       x
       (approx (sin (/ x 3.0)))))
   (trigonometry-iter 0.000001))
+
+(define (identity x) x)
+
+(define (reciprocal x) (/ 1 x))
+
+(define (power x n)
+  ((if (< n 0) reciprocal identity)
+    (if (= 0 n)
+      1
+      (* x (power x (- (abs n) 1))))))
