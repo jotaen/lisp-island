@@ -1,0 +1,3 @@
+#!/bin/sh
+
+scheme --silent --load run-tests.scm
