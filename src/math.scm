@@ -10,9 +10,7 @@
     (define (precise-enough?) (< (diff guess previous-guess) precision))
     (if (precise-enough?)
         guess
-        (newton-iter (approx guess) guess precision)
-     )
-  )
+        (newton-iter (approx guess) guess precision)))
   (newton-iter 1.0 0.0 0.000001))
 
 (define (factorial x)
