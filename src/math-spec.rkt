@@ -102,11 +102,21 @@
   )
 
   (test-case "power"
+    (check-equal? (power 0 1) 0)
+    (check-equal? (power 0 2) 0)
+    (check-equal? (power 1 1) 1)
+    (check-equal? (power 1 2) 1)
+    (check-equal? (power 3 -3) 1/27)
     (check-equal? (power 3 -2) 1/9)
     (check-equal? (power 3 -1) 1/3)
     (check-equal? (power 3 0) 1)
     (check-equal? (power 3 1) 3)
     (check-equal? (power 3 2) 9)
+    (check-equal? (power 3 3) 27)
+    (check-equal? (power 3 4) 81)
+    (check-equal? (power 475 12) 131923849527010977268218994140625)
+    (check-equal? (power 475 13) 62663828525330214202404022216796875)
+    (check-equal? (power 476 12) 135295525131890643183257125912576)
     (check-equal? (power 476 13) 64400669962779946155230391934386176)
   )
 
