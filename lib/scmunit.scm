@@ -1,0 +1,26 @@
+(define-syntax check
+  (syntax-rules ()
+    ((_ predicate expression expected)
+        (let* (
+          (actual expression)
+          (result (predicate actual expected)))
+          (begin
+            (display "\n")
+            (display "Evaluate:    ")
+            (display 'expression)
+            (display "\n")
+            (display "Assert:      (")
+            (display 'predicate)
+            (display " ")
+            (display actual)
+            (display " ")
+            (display expected)
+            (display ")")
+            (display "\n")
+            (display "Result:      ")
+            (display result)
+            (display "\n")
+            )))))
+
+(check eq? (+ 5 5) 12)
+(check eq? (+ 5 5) 10)
