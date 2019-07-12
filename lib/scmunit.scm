@@ -37,7 +37,7 @@
 
 (define (scmunit-run*)
     (define (check-overview cs)
-        (fold-right (lambda (c a) (string-append a (if (scmunit/check-ok? c) "." "E"))) "" cs))
+        (fold-right (lambda (c a) (string-append a (if (scmunit/check-ok? c) "." "x"))) "" cs))
     (define (check-runtime cs) (fold-right (lambda (c a) (+ a (scmunit/check-runtime c))) 0 cs))
     (define (group-summary g)
         (string-append
@@ -48,15 +48,27 @@
     (define (summary gs pref) (fold-right (lambda (g a)
         (string-append a "\n" pref (group-summary g) " " (summary (scmunit/group-groups g) (string-append pref "  ")))
     ) "" gs))
-    (define (result-verbose c)
+    (define (check-verbose cs) (fold-right (lambda (cp a)
+        (define (concat-paths ps) (fold-right (lambda (p a) (string-append p ": " a)) "" ps))
+        (let ((c (first cp)) (ps (second cp)))
         (format #f
-        "\n~A   :::   (~A ~A ~A)   >>>   ~A"
-        (scmunit/check-expression c)
-        (scmunit/check-predicate c)
-        (scmunit/check-actual c)
-        (scmunit/check-expected c)
-        (scmunit/check-ok? c)))
+            "~A  ~A  <>  (~A ~A ~A)\n"
+            (concat-paths ps)
+            (scmunit/check-expression c)
+            (scmunit/check-predicate c)
+            (scmunit/check-actual c)
+            (scmunit/check-expected c))
+    )) "" cs))
+    (define (all-checks gs path) (fold-right (lambda (g a)
+        (let ((current-path (append path (list (scmunit/group-name g)))))
+        (append
+            a
+            (all-checks (scmunit/group-groups g) current-path)
+            (map (lambda (c) (list c current-path)) (scmunit/group-checks g)))
+    )) () gs))
     (begin
         (display (summary *scmunit/groups* ""))
         (display "\n\n")
+        (display (check-verbose (filter (lambda (cp) (not (scmunit/check-ok? (first cp)))) (all-checks *scmunit/groups* ()))))
+        (display "\n")
     ))
