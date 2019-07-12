@@ -4,3 +4,4 @@
 (include "src/list-spec.scm")
 
 (scmunit-run)
+(exit)

@@ -2,7 +2,7 @@
 
 (define PREC 0.0001)
 
-(test-case "abs"
+(test-group "abs"
   (check eq? (abs -182) 182)
   (check eq? (abs -1) 1)
   (check eq? (abs 0) 0)
@@ -10,7 +10,7 @@
   (check eq? (abs 184) 184)
 )
 
-(test-case "diff"
+(test-group "diff"
   (check eq? (diff 1 2) 1)
   (check eq? (diff 2 1) 1)
   (check eq? (diff -5 -7) 2)
@@ -20,21 +20,21 @@
   (check eq? (diff 1726 0) 1726)
 )
 
-(test-case "within?"
+(test-group "within?"
   (check eq? ((within? 1) 2 1) #t)
   (check eq? ((within? 1) 2 2) #t)
   (check eq? ((within? 1) 2 0) #f)
   (check eq? ((within? 1) 2 -2) #f)
 )
 
-(test-case "average"
+(test-group "average"
   (check eq? (average 2 0) 1)
   (check eq? (average 13 1) 7)
   (check equal? (average 1 14) 15/2)
   (check eq? (average 4 -4) 0)
 )
 
-(test-case "sqrt"
+(test-group "sqrt"
   (check (within? PREC) (sqrt 0) 0)
   (check (within? PREC) (sqrt 1) 1)
   (check (within? PREC) (sqrt 2) 1.4142)
@@ -45,7 +45,7 @@
   (check (within? PREC) (sqrt 100001) 316.2293471)
 )
 
-(test-case "factorial"
+(test-group "factorial"
   (check eq? (factorial -5) -120)
   (check eq? (factorial -4) -24)
   (check eq? (factorial -3) -6)
@@ -60,7 +60,7 @@
   (check eq? (factorial 14) 87178291200)
 )
 
-(test-case "fibonacci"
+(test-group "fibonacci"
   (check eq? (fibonacci 0) 0)
   (check eq? (fibonacci 1) 1)
   (check eq? (fibonacci 2) 1)
@@ -73,7 +73,7 @@
   (check eq? (fibonacci 50) 12586269025)
 )
 
-(test-case "binomial-coefficients"
+(test-group "binomial-coefficients"
   (check equal? (binomial-coefficients 1) '(1))
   (check equal? (binomial-coefficients 2) '(1 1))
   (check equal? (binomial-coefficients 3) '(1 2 1))
@@ -82,7 +82,7 @@
   (check equal? (binomial-coefficients 6) '(1 5 10 10 5 1))
 )
 
-(test-case "sin"
+(test-group "sin"
   (check (within? PREC) (sin 0) 0)
   (check (within? PREC) (sin (/ pi 6)) 0.5)
   (check (within? PREC) (sin (/ pi 2)) 1)
@@ -91,19 +91,19 @@
   (check (within? PREC) (sin (* pi 10)) 0)
 )
 
-(test-case "identity"
+(test-group "identity"
   (check eq? (identity 1) 1)
   (check equal? (identity '()) '())
   (check equal? (identity '(2)) '(2))
 )
 
-(test-case "reciprocal"
+(test-group "reciprocal"
   (check equal? (reciprocal 1) 1/1)
   (check equal? (reciprocal 5) 1/5)
   (check equal? (reciprocal -5) -1/5)
 )
 
-(test-case "power"
+(test-group "power"
   (check eq? (power 0 1) 0)
   (check eq? (power 0 2) 0)
   (check eq? (power 1 1) 1)

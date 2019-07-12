@@ -5,6 +5,9 @@
 (define-structure scmunit-result
     predicate expression actual expected ok?)
 
+(define-structure scmunit-group
+    name checks)
+
 (define-syntax check
   (syntax-rules () ((_ predicate expression expected)
     (let* (
@@ -12,8 +15,8 @@
       (ok? (predicate actual expected)))
         (make-scmunit-result 'predicate 'expression actual expected ok?)))))
 
-(define (test-case name . checks) 
-    (set! scmunit-report (append scmunit-report (list (list name checks)))))
+(define (test-group name . checks) 
+    (set! scmunit-report (append scmunit-report `(,(make-scmunit-group name checks)))))
 
 (define (scmunit-run)
     (define (headline h) (string-append "# " h))
@@ -28,12 +31,12 @@
     (define (quiet c) (if (scmunit-result-ok? c) "." "E"))
     (begin
         (display "\n")
-        (for-each (lambda (t) (begin
-            (display (headline (first t)))
+        (for-each (lambda (g) (begin
+            (display (headline (scmunit-group-name g)))
             (display "\n  ")
-            (for-each (lambda (c) (display (quiet c))) (second t))
+            (for-each (lambda (c) (display (quiet c))) (scmunit-group-checks g))
             (for-each (lambda (c) (display (verbose c)))
-                (filter (lambda (c) (not (scmunit-result-ok? c))) (second t)))
+                (filter (lambda (c) (not (scmunit-result-ok? c))) (scmunit-group-checks g)))
             (display "\n\n")
             )) scmunit-report)
         ))

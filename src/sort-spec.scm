@@ -1,6 +1,6 @@
 (include "src/sort.scm")
 
-(test-case "insert-sort"
+(test-group "insert-sort"
     (check equal? (insert-sort '()) '())
     (check equal? (insert-sort '(1)) '(1))
     (check equal? (insert-sort '(1 2 3)) '(1 2 3))
