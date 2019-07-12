@@ -1,12 +1,12 @@
 (load-option 'format)
 
-(define scmunit-report ())
+(define *scmunit-groups* ())
 
 (define-structure scmunit-result
     predicate expression actual expected ok?)
 
 (define-structure scmunit-group
-    name checks)
+    name items)
 
 (define-syntax check
   (syntax-rules () ((_ predicate expression expected)
@@ -15,28 +15,37 @@
       (ok? (predicate actual expected)))
         (make-scmunit-result 'predicate 'expression actual expected ok?)))))
 
-(define (test-group name . checks) 
-    (set! scmunit-report (append scmunit-report `(,(make-scmunit-group name checks)))))
+(define-syntax test-group
+    (syntax-rules () ((_ name items ...)
+        (make-scmunit-group name (list items ...)))))
+
+(define-syntax test-group*
+    (syntax-rules () ((_ name items ...)
+        (set! *scmunit-groups* (append *scmunit-groups* (list (make-scmunit-group name (list items ...))))))))
 
 (define (scmunit-run)
-    (define (headline h) (string-append "# " h))
-    (define (verbose c)
+    (define (header g) (string-append "# " (scmunit-group-name g)))
+    (define (check-verbose c)
         (format #f
-        "\n  ~A   :::   (~A ~A ~A)   >>>   ~A"
+        "\n~A   :::   (~A ~A ~A)   >>>   ~A"
         (scmunit-result-expression c)
         (scmunit-result-predicate c)
         (scmunit-result-actual c)
         (scmunit-result-expected c)
         (scmunit-result-ok? c)))
-    (define (quiet c) (if (scmunit-result-ok? c) "." "E"))
+    (define (check-quiet c) (if (scmunit-result-ok? c) "." "E"))
+    (define (groups-strs gs) (map (lambda (x) (cond
+        ((list? x) (suites-strs x))
+        ((scmunit-group? x) (make-scmunit-group (header x) (groups-strs (scmunit-group-items x))))
+        ((scmunit-result? x) (check-quiet x))
+        )) gs))
+    (define (join-indented xs pref) (fold-right (lambda (x a) (cond
+        ((string? x) (string-append x a))
+        ((scmunit-group? x) (string-append a "\n" pref (scmunit-group-name x) " " (join-indented (list (scmunit-group-items x)) (string-append pref "  "))))
+        ((list? x) (string-append a (join-indented x pref)))
+        (error "Wrong type!")
+    )) "" xs))
     (begin
-        (display "\n")
-        (for-each (lambda (g) (begin
-            (display (headline (scmunit-group-name g)))
-            (display "\n  ")
-            (for-each (lambda (c) (display (quiet c))) (scmunit-group-checks g))
-            (for-each (lambda (c) (display (verbose c)))
-                (filter (lambda (c) (not (scmunit-result-ok? c))) (scmunit-group-checks g)))
-            (display "\n\n")
-            )) scmunit-report)
-        ))
+        (display (join-indented (groups-strs *scmunit-groups*) ""))
+        (display "\n\n")
+    ))
