@@ -1,3 +1,5 @@
+(include "src/list.scm")
+
 (define pi 3.1415926)
 
 (define (abs x) (if (< x 0) (- x) x))
@@ -45,8 +47,6 @@
       x
       (approx (sin (/ x 3.0)))))
   0.000001))
-
-(define (identity x) x)
 
 (define (reciprocal x) (/ 1 x))
 
