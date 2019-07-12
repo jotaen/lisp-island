@@ -1,4 +1,4 @@
-(include "src/list.scm")
+(load "src/list.scm")
 
 (test-group* "list" (list
 

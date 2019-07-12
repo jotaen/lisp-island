@@ -1,4 +1,4 @@
-(include "src/sort.scm")
+(load "src/sort.scm")
 
 (test-group* "sort" (list
 

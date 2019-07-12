@@ -1,7 +1,7 @@
-(include "lib/scmunit.scm")
-(include "src/math-spec.scm")
-(include "src/sort-spec.scm")
-(include "src/list-spec.scm")
+(load '("lib/scmunit.scm"
+        "src/math-spec.scm"
+        "src/sort-spec.scm"
+        "src/list-spec.scm"))
 
 (display (scmunit-run*))
 (exit)

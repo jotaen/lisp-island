@@ -1,4 +1,4 @@
-(include "src/math.scm")
+(load "src/math.scm")
 
 (test-group* "math" (let ((PREC 0.0001)) (list
 
