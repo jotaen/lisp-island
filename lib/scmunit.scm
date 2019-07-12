@@ -3,7 +3,7 @@
 (define *scmunit-groups* ())
 
 (define-structure scmunit-check
-    predicate expression actual expected ok?)
+    predicate expression actual expected ok? runtime)
 
 (define-structure scmunit-group
     name checks groups)
@@ -11,9 +11,17 @@
 (define-syntax check
   (syntax-rules () ((_ predicate expression expected)
     (let* (
-      (actual expression)
-      (ok? (predicate actual expected)))
-        (make-scmunit-check 'predicate 'expression actual expected ok?)))))
+        (time-start (real-time-clock))
+        (actual expression)
+        (time-end (real-time-clock))
+        (ok? (predicate actual expected)))
+            (make-scmunit-check
+                'predicate
+                'expression
+                actual
+                expected
+                ok?
+                (* 1000 (internal-time/ticks->seconds (- time-end time-start))))))))
 
 (define-syntax test-group
     (syntax-rules () ((_ name items ...)
@@ -36,13 +44,25 @@
         (scmunit-check-actual c)
         (scmunit-check-expected c)
         (scmunit-check-ok? c)))
-    (define (check-summary cs)
+    (define (check-overview cs)
         (fold-right (lambda (c a) (string-append a (if (scmunit-check-ok? c) "." "E"))) "" cs))
+    (define (check-runtime cs) (fold-right (lambda (c a) (+ a (scmunit-check-runtime c))) 0 cs))
     (define (group-summary g)
-        (string-append "# " (scmunit-group-name g) " " (check-summary (scmunit-group-checks g))))
+        (string-append
+            "# "
+            (scmunit-group-name g)
+            (if (< 0 (length (scmunit-group-checks g)))
+                (format #f " ~A (~Ams)" (check-overview (scmunit-group-checks g)) (check-runtime (scmunit-group-checks g)))
+                "")))
     (define (stringify xs pref) (fold-right (lambda (x a) (if
         (list? x) (string-append a (stringify x pref))
-        (string-append a "\n" pref (group-summary x) " " (stringify (list (scmunit-group-groups x)) (string-append pref "  ")))
+        (string-append
+            a
+            "\n"
+            pref
+            (group-summary x)
+            " "
+            (stringify (list (scmunit-group-groups x)) (string-append pref "  ")))
     )) "" xs))
     (begin
         (display (stringify *scmunit-groups* ""))
