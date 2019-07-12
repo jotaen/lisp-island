@@ -21,7 +21,7 @@
 
 (define-syntax test-group*
     (syntax-rules () ((_ name items ...)
-        (set! *scmunit-groups* (append *scmunit-groups* (list (make-scmunit-group name (list items ...))))))))
+        (set! *scmunit-groups* (append *scmunit-groups* (list (test-group name items ...)))))))
 
 (define (scmunit-run)
     (define (header g) (string-append "# " (scmunit-group-name g)))
