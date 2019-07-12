@@ -34,18 +34,13 @@
         (scmunit-result-expected c)
         (scmunit-result-ok? c)))
     (define (check-quiet c) (if (scmunit-result-ok? c) "." "E"))
-    (define (groups-strs gs) (map (lambda (x) (cond
-        ((list? x) (suites-strs x))
-        ((scmunit-group? x) (make-scmunit-group (header x) (groups-strs (scmunit-group-items x))))
-        ((scmunit-result? x) (check-quiet x))
-        )) gs))
-    (define (join-indented xs pref) (fold-right (lambda (x a) (cond
-        ((string? x) (string-append x a))
-        ((scmunit-group? x) (string-append a "\n" pref (scmunit-group-name x) " " (join-indented (list (scmunit-group-items x)) (string-append pref "  "))))
-        ((list? x) (string-append a (join-indented x pref)))
+    (define (stringify xs pref) (fold-right (lambda (x a) (cond
+        ((scmunit-group? x) (string-append a "\n" pref (header x) " " (stringify (list (scmunit-group-items x)) (string-append pref "  "))))
+        ((scmunit-result? x) (string-append a (check-quiet x)))
+        ((list? x) (string-append a (stringify x pref)))
         (error "Wrong type!")
     )) "" xs))
     (begin
-        (display (join-indented (groups-strs *scmunit-groups*) ""))
+        (display (stringify *scmunit-groups* ""))
         (display "\n\n")
     ))
