@@ -28,18 +28,17 @@
 ; Group of checks and/or sub-groups
 ; (string [check|group]...) -> scmunit/group
 (define-syntax test-group
-    (syntax-rules () ((_ name items ...)
-        (let ((is (list items ...)))
-            (make-scmunit/group
-                name
-                (filter (lambda (x) (scmunit/check? x)) is)
-                (filter (lambda (x) (scmunit/group? x)) is))))))
+    (syntax-rules () ((_ name xs)
+        (make-scmunit/group
+            name
+            (filter (lambda (x) (scmunit/check? x)) xs)
+            (filter (lambda (x) (scmunit/group? x)) xs)))))
 
 ; Test group that automatically registers itself at the test-runner
 ; (string [check|group]...) -> NIL
 (define-syntax test-group*
-    (syntax-rules () ((_ name items ...)
-        (set! *scmunit/groups* (append *scmunit/groups* (list (test-group name items ...)))))))
+    (syntax-rules () ((_ name xs ...)
+        (set! *scmunit/groups* (append *scmunit/groups* (list (test-group name xs ...)))))))
 
 ; Command to run all registered tests, returns the formatted result
 ; () -> string
