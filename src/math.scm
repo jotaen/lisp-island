@@ -1,4 +1,4 @@
-(load "src/list.scm")
+(load "src/misc.scm")
 
 (define pi 3.1415926)
 
