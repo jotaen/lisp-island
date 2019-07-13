@@ -35,7 +35,7 @@
 
 (define (scmunit-run groups callback)
     (define (check-overview cs)
-        (fold-right (lambda (c a) (string-append a (if (scmunit/check-ok? c) "." "x"))) "" cs))
+        (fold-left (lambda (a c) (string-append a (if (scmunit/check-ok? c) "." "x"))) "" cs))
     (define (check-runtime cs) (fold-right (lambda (c a) (+ a (scmunit/check-runtime c))) 0 cs))
     (define (group-listing g)
         (string-append
@@ -43,9 +43,9 @@
             (if (< 0 (length (scmunit/group-checks g)))
                 (format #f " ~A (~Ams)" (check-overview (scmunit/group-checks g)) (check-runtime (scmunit/group-checks g)))
                 "")))
-    (define (listing gs pref) (fold-right (lambda (g a)
+    (define (listing gs pref) (fold-left (lambda (a g)
         (string-append a "\n" pref (group-listing g) " " (listing (scmunit/group-groups g) (string-append pref "  ")))) "" gs))
-    (define (check-verbose c:ps) (fold-right (lambda (c:p a:i)
+    (define (check-verbose c:ps) (fold-left (lambda (a:i c:p)
         (define (concat-paths ps) (fold-right (lambda (p a) (string-append p ": " a)) "" ps))
         (let ((c (first c:p)) (ps (second c:p)) (a (first a:i)) (i (second a:i)))
         (list (format #f
@@ -57,7 +57,7 @@
             (scmunit/check-predicate c)
             (scmunit/check-actual c)
             (fold-left (lambda (x a) (format #f "~A ~A" x a)) "" (scmunit/check-arguments c))) (+ i 1)))) '("" 1) c:ps))
-    (define (get-checks gs path) (fold-right (lambda (g a)
+    (define (get-checks gs path) (fold-left (lambda (a g)
         (let ((current-path (append path (list (scmunit/group-name g)))))
         (append
             a
