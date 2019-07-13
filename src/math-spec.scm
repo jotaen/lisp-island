@@ -21,10 +21,10 @@
   ))
 
   (test-group "within?" (list
-    (check eq? ((within? 1) 2 1) #t)
-    (check eq? ((within? 1) 2 2) #t)
-    (check eq? ((within? 1) 2 0) #f)
-    (check eq? ((within? 1) 2 -2) #f)
+    (check true? (within? 2 1 1))
+    (check true? (within? 2 2 1))
+    (check false? (within? 2 0 1))
+    (check false? (within? 2 -2 1))
   ))
 
   (test-group "average" (list
@@ -35,14 +35,14 @@
   ))
 
   (test-group "sqrt" (list
-    (check (within? PREC) (sqrt 0) 0)
-    (check (within? PREC) (sqrt 1) 1)
-    (check (within? PREC) (sqrt 2) 1.4142)
-    (check (within? PREC) (sqrt 9) 3)
-    (check (within? PREC) (sqrt 16) 4)
-    (check (within? PREC) (sqrt 25) 5)
-    (check (within? PREC) (sqrt 100) 10)
-    (check (within? PREC) (sqrt 100001) 316.2293471)
+    (check within? (sqrt 0) 0 PREC)
+    (check within? (sqrt 1) 1 PREC)
+    (check within? (sqrt 2) 1.4142 PREC)
+    (check within? (sqrt 9) 3 PREC)
+    (check within? (sqrt 16) 4 PREC)
+    (check within? (sqrt 25) 5 PREC)
+    (check within? (sqrt 100) 10 PREC)
+    (check within? (sqrt 100001) 316.2293471 PREC)
   ))
 
   (test-group "factorial" (list
@@ -83,12 +83,12 @@
   ))
 
   (test-group "sin" (list
-    (check (within? PREC) (sin 0) 0)
-    (check (within? PREC) (sin (/ pi 6)) 0.5)
-    (check (within? PREC) (sin (/ pi 2)) 1)
-    (check (within? PREC) (sin pi) 0)
-    (check (within? PREC) (sin (* pi 1.5)) -1)
-    (check (within? PREC) (sin (* pi 10)) 0)
+    (check within? (sin 0) 0 PREC)
+    (check within? (sin (/ pi 6)) 0.5 PREC)
+    (check within? (sin (/ pi 2)) 1 PREC)
+    (check within? (sin pi) 0 PREC)
+    (check within? (sin (* pi 1.5)) -1 PREC)
+    (check within? (sin (* pi 10)) 0 PREC)
   ))
 
   (test-group "identity" (list

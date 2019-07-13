@@ -6,7 +6,7 @@
 
 (define (diff x y) (abs (- x y)))
 
-(define (within? delta) (lambda (x y) (>= delta (diff x y))))
+(define (within? x y delta) (>= delta (diff x y)))
 
 (define (average x y) (/ (+ x y) 2))
 
