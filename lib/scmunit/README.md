@@ -19,9 +19,9 @@ scmunit is a lightweight test runner and assertion library written in MIT Scheme
 
 ## Reference
 
-### `(check predicate expression expected-result)`
+### `(check predicate expression [arguments])`
 
-Executes `expression` and passes its return value to `predicate`, along with `expected-result`. Is considered successful if `predicate` returns `#t`.
+Executes `expression` and passes its return value to `predicate`, along with every `argument` (if there is any). The check is considered successful if `predicate` returns `#t`.
 
 ### `(test-group name [items])`
 
