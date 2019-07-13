@@ -42,7 +42,7 @@
 
 ; Command to run all registered tests, returns the formatted result
 ; () -> string
-(define (scmunit-run*)
+(define (scmunit-run groups callback)
     (define (check-overview cs)
         (fold-right (lambda (c a) (string-append a (if (scmunit/check-ok? c) "." "x"))) "" cs))
     (define (check-runtime cs) (fold-right (lambda (c a) (+ a (scmunit/check-runtime c))) 0 cs))
@@ -74,13 +74,19 @@
             (map (lambda (c) (list c current-path)) (scmunit/group-checks g))))) () gs))
     (define (summary nr-all nr-failed) (format #f "~A checks ran: ~A passed, ~A failed" nr-all (- nr-all nr-failed) nr-failed))
     (let* (
-        (all-checks (get-checks *scmunit/groups* ()))
-        (failed-checks (filter (lambda (cp) (not (scmunit/check-ok? (first cp)))) all-checks)))
-    (string-append
-        (listing *scmunit/groups* "")
-        "\n\n"
-        (summary (length all-checks) (length failed-checks))
-        "\n"
-        (first (check-verbose failed-checks))
-        "\n"
-        (if (< 0 (length failed-checks)) "\n" ""))))
+        (all-checks (get-checks groups ()))
+        (failed-checks (filter (lambda (cp) (not (scmunit/check-ok? (first cp)))) all-checks))
+        (success? (= 0 (length failed-checks)))
+        (output-text (string-append
+            (listing groups "")
+            "\n\n"
+            (summary (length all-checks) (length failed-checks))
+            "\n"
+            (first (check-verbose failed-checks))
+            "\n"
+            (if (not success?) "\n" ""))))
+    (begin
+        (callback output-text (if (eq? success? #t) 0 1))
+        output-text)))
+
+(define (scmunit-run*) (scmunit-run *scmunit/groups* (lambda (out status) (begin (display out) (exit status)))))

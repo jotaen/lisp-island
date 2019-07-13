@@ -3,5 +3,4 @@
         "src/sort-spec.scm"
         "src/list-spec.scm"))
 
-(display (scmunit-run*))
-(exit)
+(scmunit-run*)
