@@ -24,16 +24,14 @@
                 ok?
                 (* 1000 (internal-time/ticks->seconds (- time-end time-start))))))))
 
-(define-syntax test-group
-    (syntax-rules () ((_ name xs)
-        (make-scmunit/group
-            name
-            (filter (lambda (x) (scmunit/check? x)) xs)
-            (filter (lambda (x) (scmunit/group? x)) xs)))))
+(define (test-group name xs)
+    (make-scmunit/group
+        name
+        (filter (lambda (x) (scmunit/check? x)) xs)
+        (filter (lambda (x) (scmunit/group? x)) xs)))
 
-(define-syntax test-group*
-    (syntax-rules () ((_ name xs ...)
-        (set! *scmunit/groups* (append *scmunit/groups* (list (test-group name xs ...)))))))
+(define (test-group* name xs)
+    (set! *scmunit/groups* (append *scmunit/groups* (list (test-group name xs)))))
 
 (define (scmunit-run groups callback)
     (define (check-overview cs)
