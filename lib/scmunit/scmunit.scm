@@ -8,8 +8,6 @@
 (define-structure scmunit/group
     name checks groups)
 
-; Test assertion
-; (predicate expression value) -> scmunit/check
 (define-syntax check
   (syntax-rules () ((_ predicate expression expected)
     (let* (
@@ -25,8 +23,6 @@
                 ok?
                 (* 1000 (internal-time/ticks->seconds (- time-end time-start))))))))
 
-; Group of checks and/or sub-groups
-; (string [check|group]...) -> scmunit/group
 (define-syntax test-group
     (syntax-rules () ((_ name xs)
         (make-scmunit/group
@@ -34,14 +30,10 @@
             (filter (lambda (x) (scmunit/check? x)) xs)
             (filter (lambda (x) (scmunit/group? x)) xs)))))
 
-; Test group that automatically registers itself at the test-runner
-; (string [check|group]...) -> NIL
 (define-syntax test-group*
     (syntax-rules () ((_ name xs ...)
         (set! *scmunit/groups* (append *scmunit/groups* (list (test-group name xs ...)))))))
 
-; Command to run all registered tests, returns the formatted result
-; () -> string
 (define (scmunit-run groups callback)
     (define (check-overview cs)
         (fold-right (lambda (c a) (string-append a (if (scmunit/check-ok? c) "." "x"))) "" cs))
