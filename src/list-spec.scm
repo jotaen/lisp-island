@@ -3,9 +3,9 @@
 (test-group* "list" (list
 
   (test-group "empty?" (list
-    (check eq? (empty? '()) #t)
-    (check eq? (empty? '(1)) #f)
-    (check eq? (empty? '(1 2 3)) #f)
+    (check true? (empty? '()))
+    (check false? (empty? '(1)))
+    (check false? (empty? '(1 2 3)))
   ))
 
   (test-group "compose" (let () 
