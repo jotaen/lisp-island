@@ -14,6 +14,18 @@
     (check equal? (sort-pair '(2 1)) '(1 2))
   ))
 
+  (test-group "slice" (list
+    (check equal? (slice '(1 2 3) 0 0) '())
+    (check equal? (slice '(1 2 3) 0 1) '(1))
+    (check equal? (slice '(1 2 3) 1 2) '(2))
+    (check equal? (slice '(1 2 3) 0 2) '(1 2))
+    (check equal? (slice '(1 2 3) 1 3) '(2 3))
+    (check equal? (slice '(1 2 3) 0 3) '(1 2 3))
+    (check equal? (slice '(1 2 3) 1 3) '(2 3))
+    (check equal? (slice '(1 2 3) 2 3) '(3))
+    (check equal? (slice '(1 2 3) 3 3) '())
+  ))
+
   (test-group "compose" (let () 
   (define (plus4 x) (+ x 4))
   (define (times6 x) (* x 6))
