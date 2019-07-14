@@ -15,3 +15,19 @@
       sorted
       (sort-iter (cdr unsorted) (sort-into (car unsorted) '() sorted))))
   (sort-iter numbers '()))
+
+(define (select-sort numbers)
+  (define (put-smallest-first x left right smallest)
+    (if (empty? left)
+      (cons smallest right)
+      (let* ((c (first left)) (smaller (min smallest c)) (bigger (max smallest c)))
+        (put-smallest-first x (cdr left) (cons bigger right) smaller))))
+  (define (sort-iter unsorted sorted)
+    (if (>= 1 (length unsorted))
+      (append sorted unsorted)
+      (let* (
+        (p (put-smallest-first (car unsorted) (cdr unsorted) '() (car unsorted)))
+        (next-smallest (first p))
+        (remainder (cdr p)))
+          (sort-iter remainder (append sorted `(,next-smallest))))))
+  (sort-iter numbers '()))

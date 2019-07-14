@@ -36,6 +36,7 @@
           (check equal? (f '(1 1)) '(1 1))
           (check equal? (f '(1 3 1)) '(1 1 3))
   )))) (list
-      `("insert-sort" ,insert-sort))))
+      `("insert-sort" ,insert-sort)
+      `("select-sort" ,select-sort))))
 
 ))
