@@ -6,12 +6,12 @@
 (define (sort-pair p) (if (> (first p) (second p)) (reverse p) p))
 
 (define (insert-sort numbers)
-  (define (insert x left right)
-    (if (or (empty? right) (<= x (first right)))
-      (append left (list x) right)
-      (insert x (append left (list (first right))) (cdr right))))
+  (define (sort-into x smaller larger)
+    (if (or (empty? larger) (<= x (first larger)))
+      (append smaller (list x) larger)
+      (sort-into x (append smaller (list (first larger))) (cdr larger))))
   (define (sort-iter unsorted sorted)
-    (if (= 0 (length unsorted))
+    (if (empty? unsorted)
       sorted
-      (sort-iter (cdr unsorted) (insert (car unsorted) '() sorted))))
+      (sort-iter (cdr unsorted) (sort-into (car unsorted) '() sorted))))
   (sort-iter numbers '()))
