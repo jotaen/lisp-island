@@ -8,6 +8,12 @@
     (check false? (empty? '(1 2 3)))
   ))
 
+  (test-group "sort-pair" (list
+    (check equal? (sort-pair '(1 1)) '(1 1))
+    (check equal? (sort-pair '(1 2)) '(1 2))
+    (check equal? (sort-pair '(2 1)) '(1 2))
+  ))
+
   (test-group "compose" (let () 
   (define (plus4 x) (+ x 4))
   (define (times6 x) (* x 6))

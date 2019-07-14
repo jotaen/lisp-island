@@ -3,6 +3,8 @@
 (define (compose . fs)
   (lambda (x) (fold-right (lambda (f x) (f x)) x fs)))
 
+(define (sort-pair p) (if (> (first p) (second p)) (reverse p) p))
+
 (define (insert-sort numbers)
   (define (insert x left right)
     (if (or (empty? right) (<= x (first right)))
