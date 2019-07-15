@@ -42,15 +42,24 @@
           (append sorted (list smallest))
       ))))
   (define (merge as bs) (merge-iter as bs '()))
-  (define (sort-iter xs)
-    (if (<= (length xs) 1)
-      xs
-      (let ((p (split-half xs)))
-        (merge (sort-iter (first p)) (sort-iter (second p))))))
-  (sort-iter numbers))
+  (if (<= (length numbers) 1)
+    numbers
+    (let ((p (split-half numbers)))
+      (merge (merge-sort (first p)) (merge-sort (second p))))))
 
-; (define (quick-sort numbers) (
-;   ))
+(define (quick-sort numbers)
+  (define (divide-iter predicate xs x ps nps)
+    (if (empty? xs)
+      (list ps nps)
+      (let* (
+        (next (car xs))
+        (p ((if (predicate next x) identity reverse) (list `(,next) '()))))
+          (divide-iter predicate (cdr xs) x (append ps (first p)) (append nps (second p))))))
+  (define (divide predicate xs x) (divide-iter predicate xs x '() '()))
+  (if (<= (length numbers) 1)
+    numbers
+    (let* ((x (car numbers)) (p (divide < (cdr numbers) x)))
+      (append (quick-sort (first p)) `(,x) (quick-sort (second p))))))
 
 ; (define (bubble-sort numbers) (
 ;   ))

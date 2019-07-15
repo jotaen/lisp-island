@@ -18,6 +18,7 @@
       `("insert-sort" ,insert-sort)
       `("select-sort" ,select-sort)
       `("merge-sort" ,merge-sort)
+      `("quick-sort" ,quick-sort)
   ))
 
 )
