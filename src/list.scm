@@ -1,5 +1,7 @@
 (define (empty? xs) (= 0 (length xs)))
 
+(define (single? xs) (= 1 (length xs)))
+
 (define (compose . fs)
   (lambda (x) (fold-right (lambda (f x) (f x)) x fs)))
 
@@ -43,3 +45,23 @@
         (remainder (second p)))
           (sort-iter remainder (append sorted `(,smallest))))))
   (sort-iter numbers '()))
+
+(define (merge-sort numbers)
+  (define (split xs) (let ((h (/ (length xs) 2)))
+    (list (slice xs 0 (ceiling h)) (slice xs (ceiling h) (length xs)))))
+  (define (merge-sorted-iter as bs sorted)
+    (if (or (empty? as) (empty? bs))
+      (append sorted (if (empty? as) bs as))
+      (let ((smallest (min (car as) (car bs))))
+        (merge-sorted-iter
+          (if (= smallest (car as)) (cdr as) as)
+          (if (and (= smallest (car bs)) (not (= smallest (car as)))) (cdr bs) bs)
+          (append sorted (list smallest))
+      ))))
+  (define (merge-sorted as bs) (merge-sorted-iter as bs '()))
+  (define (split-iter xs)
+    (if (<= (length xs) 1)
+      xs
+      (let* ((p (split xs)))
+      (merge-sorted (split-iter (first p)) (split-iter (second p))))))
+  (split-iter numbers))

@@ -51,6 +51,7 @@
           (check equal? (f '(-91 100 1 50 -512 13 -40 245)) '(-512 -91 -40 1 13 50 100 245))
   )))) (list
       `("insert-sort" ,insert-sort)
-      `("select-sort" ,select-sort))))
+      `("select-sort" ,select-sort)
+      `("merge-sort" ,merge-sort))))
 
 ))
