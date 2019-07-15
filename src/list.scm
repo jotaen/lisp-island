@@ -16,3 +16,5 @@
           result
           (slice-iter head (cdr tail) (append result (list (first tail))))))))
   (slice-iter '() xs '()))
+
+(define (last xs) (car (reverse xs)))

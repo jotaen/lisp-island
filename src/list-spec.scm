@@ -37,4 +37,11 @@
     (check eq? ((compose minus2 times6 plus4) 3) 40)
   )))
 
+  (test-group "last" (list
+    (check equal? (last '(1)) 1)
+    (check equal? (last '(1 2)) 2)
+    (check equal? (last '(1 2 3)) 3)
+    (check equal? (last `(13 ,'(1829 82) 40 ,'(23 19))) '(23 19))
+  ))
+
 ))
