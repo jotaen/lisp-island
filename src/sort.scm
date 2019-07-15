@@ -12,13 +12,13 @@
       (sort-iter (cdr unsorted) (sort-into (car unsorted) sorted))))
   (sort-iter numbers '()))
 
-(define (select-sort numbers)
-  (define (find-smallest-iter left right candidate)
+(define (bubble-sort numbers)
+  (define (fs-iter left right candidate)
     (if (empty? left)
       `(,candidate ,right)
       (let* ((n (car left)) (smaller (min candidate n)) (bigger (max candidate n)))
-        (find-smallest-iter (cdr left) (cons bigger right) smaller))))
-  (define (find-smallest xs) (find-smallest-iter (cdr xs) '() (car xs)))
+        (fs-iter (cdr left) (append right `(,bigger)) smaller))))
+  (define (find-smallest xs) (fs-iter (cdr xs) '() (car xs)))
   (define (sort-iter unsorted sorted)
     (if (>= 1 (length unsorted))
       (append sorted unsorted)
@@ -60,6 +60,3 @@
     numbers
     (let* ((x (car numbers)) (p (divide < (cdr numbers) x)))
       (append (quick-sort (first p)) `(,x) (quick-sort (second p))))))
-
-; (define (bubble-sort numbers) (
-;   ))
