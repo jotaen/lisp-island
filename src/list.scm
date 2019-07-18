@@ -26,3 +26,9 @@
           (cdr rs)
           (append result (if (list? next) (flatten-iter next '()) (list next)))))))
   (flatten-iter xs '()))
+
+(define (flat? xs)
+  (cond
+    ((null? xs) #t)
+    ((list? (car xs)) #f)
+    (else (flat? (cdr xs)))))

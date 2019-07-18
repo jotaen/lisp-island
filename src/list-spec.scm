@@ -47,4 +47,13 @@
     (check equal? (flatten `(1 ,`(2 3 ,`(4) 5) ,`(,`(6)))) '(1 2 3 4 5 6))
   ))
 
+  (test-group "flat?" (list
+    (check true? (flat? '()))
+    (check true? (flat? '(1)))
+    (check true? (flat? '(1 2 3)))
+    (check false? (flat? `(,`())))
+    (check false? (flat? `(,`(1))))
+    (check false? (flat? `(1 2 ,`(3))))
+  ))
+
 ))
