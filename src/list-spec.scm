@@ -38,4 +38,13 @@
     (check equal? (last `(13 ,'(1829 82) 40 ,'(23 19))) '(23 19))
   ))
 
+  (test-group "flatten" (list
+    (check equal? (flatten '()) '())
+    (check equal? (flatten `(,`(1))) '(1))
+    (check equal? (flatten '(1 2 3)) '(1 2 3))
+    (check equal? (flatten `(,'() ,'())) '())
+    (check equal? (flatten `(1 ,'(2 3))) '(1 2 3))
+    (check equal? (flatten `(1 ,`(2 3 ,`(4) 5) ,`(,`(6)))) '(1 2 3 4 5 6))
+  ))
+
 ))
