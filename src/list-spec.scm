@@ -2,12 +2,6 @@
 
 (test-group* "list" (list
 
-  (test-group "empty?" (list
-    (check true? (empty? '()))
-    (check false? (empty? '(1)))
-    (check false? (empty? '(1 2 3)))
-  ))
-
   (test-group "sort-pair" (list
     (check equal? (sort-pair '(1 1)) '(1 1))
     (check equal? (sort-pair '(1 2)) '(1 2))

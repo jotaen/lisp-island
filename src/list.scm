@@ -1,5 +1,3 @@
-(define (empty? xs) (= 0 (length xs)))
-
 (define (single? xs) (= 1 (length xs)))
 
 (define (compose . fs)

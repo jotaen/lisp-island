@@ -2,19 +2,19 @@
 
 (define (insert-sort numbers)
   (define (sort-into-iter x smaller larger)
-    (if (or (empty? larger) (<= x (car larger)))
+    (if (or (null? larger) (<= x (car larger)))
       (append smaller `(,x) larger)
       (sort-into-iter x (append smaller `(,(car larger))) (cdr larger))))
   (define (sort-into x sorted) (sort-into-iter x '() sorted))
   (define (sort-iter unsorted sorted)
-    (if (empty? unsorted)
+    (if (null? unsorted)
       sorted
       (sort-iter (cdr unsorted) (sort-into (car unsorted) sorted))))
   (sort-iter numbers '()))
 
 (define (bubble-sort numbers)
   (define (fs-iter left right candidate)
-    (if (empty? left)
+    (if (null? left)
       `(,candidate ,right)
       (let* ((n (car left)) (smaller (min candidate n)) (bigger (max candidate n)))
         (fs-iter (cdr left) (append right `(,bigger)) smaller))))
@@ -33,8 +33,8 @@
   (define (split-half xs) (let ((h (/ (length xs) 2)))
     (list (slice xs 0 (ceiling h)) (slice xs (ceiling h) (length xs)))))
   (define (merge-iter as bs sorted)
-    (if (or (empty? as) (empty? bs))
-      (append sorted (if (empty? as) bs as))
+    (if (or (null? as) (null? bs))
+      (append sorted (if (null? as) bs as))
       (let ((smallest (min (car as) (car bs))))
         (merge-iter
           (if (= smallest (car as)) (cdr as) as)
@@ -49,7 +49,7 @@
 
 (define (quick-sort numbers)
   (define (divide-iter predicate xs x ps nps)
-    (if (empty? xs)
+    (if (null? xs)
       (list ps nps)
       (let* (
         (next (car xs))
