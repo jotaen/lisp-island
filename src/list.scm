@@ -3,8 +3,6 @@
 (define (compose . fs)
   (lambda (x) (fold-right (lambda (f x) (f x)) x fs)))
 
-(define (sort-pair p) (if (> (first p) (second p)) (reverse p) p))
-
 (define (slice xs start end)
   (define (slice-iter head tail result)
     (if (not (= start (length head)))

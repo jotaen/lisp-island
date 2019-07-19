@@ -10,6 +10,8 @@
 
 (define (average x y) (/ (+ x y) 2))
 
+(define (sort-pair p) (if (> (first p) (second p)) (reverse p) p))
+
 (define (sqrt x)
   (define (approx g) (average (/ x g) g))
   (define (newton-iter guess previous-guess precision)
