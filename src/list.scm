@@ -16,12 +16,9 @@
 (define (last xs) (car (reverse xs)))
 
 (define (flatten xs)
-  (define (flatten-iter rs result)
-    (if (null? rs) result (let*
-        ((next (car rs))
-        (tail (if (list? next) (flatten-iter next '()) (list next))))
-        (flatten-iter (cdr rs) (append result tail)))))
-  (flatten-iter xs '()))
+  (fold-left (lambda (a x)
+    (append a (if (list? x) (flatten x) (list x)))
+  ) '() xs))
 
 (define (flat? xs)
   (cond
