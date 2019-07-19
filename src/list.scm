@@ -19,12 +19,10 @@
 
 (define (flatten xs)
   (define (flatten-iter rs result)
-    (if (null? rs)
-      result
-      (let ((next (car rs)))
-        (flatten-iter
-          (cdr rs)
-          (append result (if (list? next) (flatten-iter next '()) (list next)))))))
+    (if (null? rs) result (let*
+        ((next (car rs))
+        (tail (if (list? next) (flatten-iter next '()) (list next))))
+        (flatten-iter (cdr rs) (append result tail)))))
   (flatten-iter xs '()))
 
 (define (flat? xs)
