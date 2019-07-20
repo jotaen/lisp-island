@@ -40,6 +40,12 @@
 
   (test-group "flatten" (list
     (check equal? (flatten '()) '())
+    (check equal? (flatten `(,'1 ,'(2) 3)) '(1 2 3))
+    (check equal? (flatten `(,'(1 2 3))) '(1 2 3))
+    (check equal? (flatten `(,'(1 2) ,'(3))) '(1 2 3))
+    (check equal? (flatten `(,'(1 2) ,`(3 ,'(4)))) `(,'1 ,'2 ,'3 ,'(4)))
+  ))
+
   (test-group "deep-flatten" (list
     (check equal? (deep-flatten '()) '())
     (check equal? (deep-flatten `(,`(1))) '(1))
