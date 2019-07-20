@@ -16,8 +16,9 @@
 (define (last xs) (car (reverse xs)))
 
 (define (flatten xs)
+(define (deep-flatten xs)
   (fold-left (lambda (a x)
-    (append a (if (list? x) (flatten x) (list x)))
+    (append a (if (list? x) (deep-flatten x) (list x)))
   ) '() xs))
 
 (define (flat? xs)
