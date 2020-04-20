@@ -1,4 +1,4 @@
-(load '("lib/scmunit/scmunit.scm"
+(load '("../scmunit/scmunit.scm"
         "src/math-spec.scm"
         "src/list-spec.scm"
         "src/misc-spec.scm"
